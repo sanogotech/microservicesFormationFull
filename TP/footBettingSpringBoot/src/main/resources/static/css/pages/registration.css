@@ -1,0 +1,10 @@
+.registrationBox {
+	background-color: #EAEAEA;
+	padding: 20px;
+	border: 1px solid #9C9C9C;
+}
+
+.token-input {
+	width: 50%;
+	background-color: #c4ecd9;
+}

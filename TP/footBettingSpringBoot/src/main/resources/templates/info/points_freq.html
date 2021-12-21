@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{_layout}">
+	<head>
+		<title th:text="#{pointsfrequency.title}"></title>
+	</head>
+	<body>
+		<div layout:fragment="content" class="container">
+			<div th:replace="~{fragments/alert :: alert_headline}"></div>
+			<h1 th:text="#{pointsfrequency.title}"></h1>
+			<span th:text="#{pointsfrequency.title2}"></span>
+			<br/>
+			<br/>
+			<div class="row" th:if="${pointsFrequencyCommand != null}">
+				<div class="col-xs-12 col-sm-6 col-md-4" th:each="pointsfrequency : ${pointsFrequencyCommand.resultList}">
+					<div class="table-responsive">
+				   		<table class="table table-centered">
+							<thead>
+								<tr class="active">
+									<th th:text="#{pointsfrequency.table.header.name}"></th>
+									<th>
+										<span class="label label-warning label-as-badge big-badge" th:text="${pointsfrequency.points}">
+										</span>
+										<span th:text="#{pointsfrequency.points}"></span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="success" th:each="pointCountResult : ${pointsfrequency.list}">
+									<td th:text="${pointCountResult.username}"></td>
+									<td th:text="${pointCountResult.numberOfPointsCount}"></td>
+								</tr>
+							</tbody>
+				   		</table>
+				   	</div>
+				</div>				
+			</div>
+		</div>
+	</body>
+</html>

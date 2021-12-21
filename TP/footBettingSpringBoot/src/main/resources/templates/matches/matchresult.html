@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{_layout}">
+<head>
+	<title th:text="#{matches.matchresult.title}"></title>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<div th:replace="~{fragments/alert :: alert_headline}"></div>
+		<h1 th:text="#{matchresult.heading}"></h1>		
+		
+		<form id="matchresultForm" th:action="@{/matchresult}" th:object="${matchResultCommand}" action="#" method="post" role="form" class="goalsEnter">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-4">					
+					<input type="hidden" th:field="*{matchId}" />
+					<input type="hidden" th:field="*{redirectViewName}" />
+					<input type="hidden" th:field="*{groupMatch}" />
+					<input type="hidden" th:field="*{teamNameOne}" />
+					<input type="hidden" th:field="*{teamNameTwo}" />
+					<input type="hidden" th:field="*{groupMatch}" />
+					<input type="hidden" th:field="*{iconPathTeamOne}" />
+					<input type="hidden" th:field="*{iconPathTeamTwo}" />
+					<div class="form-group">
+						<div class="row center">
+							<div class="col-xs-6">
+								<img class="flag big" th:if="${matchResultCommand.getIconPathTeamOne() != null}" th:src="@{${matchResultCommand.getIconPathTeamOne()}}"/>
+								<br/>
+								<span th:text="${matchResultCommand.teamNameOne}" class="teamName"></span>
+							</div>
+							<div class="col-xs-6">
+								<img class="flag big" th:if="${matchResultCommand.getIconPathTeamTwo() != null}" th:src="@{${matchResultCommand.getIconPathTeamTwo()}}"/>
+								<br/>
+								<span th:text="${matchResultCommand.teamNameTwo}" class="teamName"></span>
+							</div>
+						</div>
+						<div class="row center">
+							<div class="col-xs-6">
+								<input type="text" th:field="*{teamResultOne}" class="form-control form-size-small color-result bold" onchange="checkPenalty()"/>
+								<br/>
+								<br/>
+								<p class="alert alert-danger field-alert" th:if="${#fields.hasErrors('teamResultOne')}" th:errors="*{teamResultOne}">teamResultOne error</p>
+							</div>
+							<div class="col-xs-6">
+								<input type="text" th:field="*{teamResultTwo}" class="form-control form-size-small color-result bold" onchange="checkPenalty()"/>
+								<br/>
+								<br/>
+								<p class="alert alert-danger field-alert" th:if="${#fields.hasErrors('teamResultTwo')}" th:errors="*{teamResultTwo}">teamResultTwo error</p>
+							</div>
+						</div>
+						<div class="row center">
+							<div class="col-xs-6">
+								<button type="button" class="btn vote" onclick="oneCountUp()"><i class="fas fa-chevron-up" aria-hidden="true"></i></button>
+								<button type="button" class="btn vote" onclick="oneCountDown()"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+							</div>
+							<div class="col-xs-6">
+								<button type="button" class="btn vote" onclick="twoCountUp()"><i class="fas fa-chevron-up" aria-hidden="true"></i></button>
+								<button type="button" class="btn vote" onclick="twoCountDown()"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+							</div>
+						</div>						
+						<div id="penaltyBox" th:if="${!matchResultCommand.isGroupMatch()}">
+							<div class="row">
+								<span class="bold" th:text="#{penalty.box.heading}"></span>
+							</div>
+							<div class="row center color-result penalty-height">
+								<div class="col-xs-6">
+									<input type="radio" th:field="*{penaltyWinnerOne}" value="true" />
+								</div>
+								<div class="col-xs-6">
+									<input type="radio" th:field="*{penaltyWinnerOne}" value="false" />
+								</div>
+							</div>								
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-xs-12">
+								<button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+								<a href="#" th:href="@{${matchResultCommand.getBackUrl()}}" class="btn btn-default" role="button" th:text="#{button.cancel}"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<th:block layout:fragment="scripts">
+	<script type="text/javascript" th:src="@{/js/pages/bet_and_result.js}" charset="UTF-8"></script>
+</th:block>
+</html>

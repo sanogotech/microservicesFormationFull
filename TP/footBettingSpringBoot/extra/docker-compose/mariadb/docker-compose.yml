@@ -1,0 +1,31 @@
+version: "3"
+services:
+    mariadb:  
+      image: mariadb:10.1.11
+      volumes:
+        - ~/mariadb:/var/lib/mysql
+      ports:
+        - "3306:3306"
+      environment:
+       - MYSQL_DATABASE=fredbetdb
+       - MYSQL_ROOT_PASSWORD=secred
+       - MYSQL_USER=fred
+       - MYSQL_PASSWORD=fred
+    fredbet:
+      image: fred4jupiter/fredbet
+      links:
+        - mariadb:mariadb
+      depends_on:
+        - mariadb
+      ports:
+        - "8080:8080"
+      environment:
+       - SPRING_PROFILES_ACTIVE=prod
+       - SPRING_DATASOURCE_HIKARI_JDBC_URL=jdbc:mariadb://mariadb:3306/fredbetdb
+       - SPRING_DATASOURCE_HIKARI_USERNAME=fred
+       - SPRING_DATASOURCE_HIKARI_PASSWORD=fred
+       - SPRING_DATASOURCE_HIKARI_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver
+       - FREDBET_IMAGE_LOCATION_FILE=FILE_SYSTEM
+       - FREDBET_IMAGE_FILE_SYSTEM_BASE_FOLDER=/home/fred/fredbet_images
+      volumes:
+       - "~/fredbet_images:/home/fred/fredbet_images"

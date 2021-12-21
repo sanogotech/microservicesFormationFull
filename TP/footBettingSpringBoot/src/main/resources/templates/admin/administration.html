@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{_layout}">
+	<head>
+		<title th:text="#{administration.title}"></title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<div th:replace="~{fragments/alert :: alert_headline}"></div>
+			<div class="row">			
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<a class="btn btn-primary" role="button" th:href="@{/administration/createRandomMatches}" th:text="#{administration.createRandomMatches}"></a>
+					<br/><br/>
+					<a class="btn btn-primary" role="button" th:href="@{/administration/createDemoBets}" th:text="#{administration.demoBetsAllUsers}"></a>
+					<br/><br/>
+					<a class="btn btn-primary" role="button" th:href="@{/administration/createDemoResults}" th:text="#{administration.testResultsAllUsers}"></a>
+					<br/><br/>
+					<a class="btn btn-primary" role="button" th:href="@{/administration/createTestDataForAll}" th:text="#{administration.createTestDataForAll}"></a>
+				</div>
+			</div>
+			<hr/>
+			<div th:replace="~{fragments/delete_confirm :: delete_confirm_modal(href = '/administration/deleteAllBetsAndMatches', id='deleteAllBetsAndMatches')}"></div>
+			<div class="row">			
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllBetsAndMatches" th:text="#{administration.deleteAllBetsAndMatches}"></button>
+				</div>			
+			</div>
+			<hr/>
+			<form id="adminForm" th:action="@{/administration/save}" th:object="${adminFormCommand}" action="#" method="post" role="form">
+
+				<div th:replace="~{fragments/delete_confirm :: delete_confirm_modal(href = '/administration/deleteAllUsers', id='deleteAllUsers')}"></div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="numberOfTestUsers" th:text="#{administration.numberOfTestUsers.title} + ':'"></label>
+							<input id="numberOfTestUsers" type="text" th:field="*{numberOfTestUsers}" class="form-control" />
+							<p class="alert alert-danger field-alert" th:if="${#fields.hasErrors('numberOfTestUsers')}" th:errors="*{numberOfTestUsers}"></p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						<button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+					</div>
+				</div>
+			</form>
+			<hr/>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAllUsers" th:text="#{administration.deleteAllUsers}"></button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
