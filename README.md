@@ -20,10 +20,3 @@ https://www.cloud-devops.fr/liste-des-codes-http/
 https://github.com/sanogotech/jhipster-cheatsheet
 
 
-
-
-
-
-
-
-![image](https://user-images.githubusercontent.com/7094446/146943250-705e3e36-bd39-4042-b0e1-809ac8f87dd5.png)
